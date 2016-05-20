@@ -43,10 +43,27 @@ public class UserController {
 	}
 
     @RequestMapping(value="/search")
-    public ModelAndView searchUsers(@RequestParam(required= false, defaultValue="") String searchName) {
+    public ModelAndView searchUsers(@RequestParam(required= false, defaultValue="") String searchName, @RequestParam(required = false) Integer page) {
         ModelAndView modelAndView = new ModelAndView("search");
         List<User> users = userService.searchUsers(searchName) ;
-        modelAndView.addObject("users", users);
+
+
+        PagedListHolder<User> pagedListHolder = new PagedListHolder<>(users);
+        pagedListHolder.setPageSize(5);
+        modelAndView.addObject("maxPages", pagedListHolder.getPageCount());
+
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()) page=1;
+
+        modelAndView.addObject("page", page);
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            pagedListHolder.setPage(0);
+            modelAndView.addObject("users", pagedListHolder.getPageList());
+        }
+        else if(page <= pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(page - 1);
+            modelAndView.addObject("users", pagedListHolder.getPageList());
+        }
+
         return modelAndView;
     }
 

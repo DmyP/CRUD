@@ -36,16 +36,15 @@
     <br>
 	<div id="paging">
         <form>
-            <input Type="button" value="Back" onClick="history.go(-1);return true;">
+            <button>
+                <c:url value="/user/list" var="first">
+                    <c:param name="page" value="1"/>
+                </c:url>
+                <a href="<c:out value="${first}" />"  class="pn first">First</a>
+            </button>
 
-        <button>
-            <c:url value="/user/list" var="first">
-                <c:param name="page" value="1"/>
-            </c:url>
-            <a href="<c:out value="${first}" />"  class="pn first">First</a>
-        </button>
 
-            <c:if test="${page == 1}">
+        <c:if test="${page == 1}">
                 <button disabled>Prev</button>
             </c:if>
             <c:if test="${page > 1}">
@@ -85,8 +84,10 @@
                     <a href='<c:out value="${next}" />' class="pn next">Next</a>
                 </button>
             </c:if>
-
 	</div>
    </form>
+<form>
+    <input Type="button" value="Back" onClick="history.go(-1);return true;">
+</form>
 </body>
 </html>
