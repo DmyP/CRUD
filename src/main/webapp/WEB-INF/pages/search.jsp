@@ -93,5 +93,6 @@
             </c:if>
     </div>
     <form><input Type="button" value="Back" onClick="history.go(-1);return true;"></form>
+    <input Type="button" value="Home" onClick="window.location='/';">
 </body>
 </html>
